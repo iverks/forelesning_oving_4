@@ -1,4 +1,5 @@
 #include "wordleVisual.h"
+#include "utilities.h"
 
 void addGuess(WordleWindow &mwin, const string code, const char startLetter)
 {
@@ -31,12 +32,12 @@ size(size)
 string WordleWindow::wait_for_guess()
 {
 	while (!button_pressed && !should_close())
-	{
+	{	
 		for(int guessIndex = 0; guessIndex < guesses.size(); guessIndex++) {
 			//Implementer gjett slik at det vises fargede rektangler i grafikkvinduet
 			{
                 // Tegn rektangler ved bruk av draw_rectangle()
-				draw_rectangle(Point{100, 100}, 10, 10, Fl_Color(0xffffff)); //, Color::white)
+				draw_rectangle(Point{100, 100}, 10, 10, Color::gray);
 				
 			}
 		}
@@ -61,34 +62,15 @@ string WordleWindow::wait_for_guess()
 	return newGuess;
 }
 
-string WordleWindow::getInput(unsigned int n, char lower, char upper)
+string WordleWindow::getInput()
 {
-	bool validInput = false;
 	string guess;
-	while (!validInput && !should_close())
+	while (!verifyWordLegality(guess) && !should_close())
 	{
 		guess.clear();
 		string input = wait_for_guess();
-		if (input.size() == n)
-		{
-			for (unsigned int i = 0; i < n; i++)
-			{
-				char ch = input.at(i);
-				if (isalpha(ch) && toupper(ch) <= upper && lower <= toupper(ch))
-				{
-					guess += toupper(ch);
-				}
-				else
-					break;
-			}
-		}
-		if (guess.size() == n)
-		{
-			validInput = true;
-		}
-		else
-		{
-			cout << "Invalid input guess again" << endl;
+		for (int index = 0; index < input.length(); index++) {
+			input[index] = tolower(input[index]);
 		}
 	}
 	return guess;

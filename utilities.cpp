@@ -24,3 +24,25 @@ string readInputToString() {
     }
     return stringy;
 }
+
+bool verifyWordLegality(string word) {
+    if (word.length() != 5) {
+        cout << "Word needs to be 5 letters long!\n";
+        return false;
+    }
+
+    for (string allowedWord: allowedCorrectAnswers) {
+        if (word == allowedWord) {
+            return true;
+        }
+    }
+
+    for (string allowedWord: allowedWrongAnswers) {
+        if (word == allowedWord) {
+            return true;
+        }
+    }
+
+    cout << "Did you really think that was a real word?\n";
+    return false;
+}

@@ -4,15 +4,14 @@
 
 using namespace Graph_lib;
 
-constexpr int winW = 200; // velg vindu bredde
-constexpr int winH = 200; // velg vindu hoyde
+constexpr int winW = 390; // velg vindu bredde
+constexpr int winH = 844; // velg vindu hoyde
 
-constexpr int padY = winH / 1;      // velg x skalering
-constexpr int padX = winW / 1;      // velg y skalering
-constexpr int radCircle = padX / 1; // velg sirkel radius
+constexpr int padY = 5;      // velg x skalering
+constexpr int padX = 5;      // velg y skalering
 
-constexpr int btnW = padX;
-constexpr int btnH = padY;
+constexpr int btnW = 63;
+constexpr int btnH = 63;
 constexpr Point upperLeftCornerBtn = Point{winW - padX - btnW, padY};
 
 constexpr int inBoxW = winW - 3 * padX - btnW;
@@ -48,7 +47,7 @@ public:
 
     void setCodeHidden(bool hidden);
 
-    string getInput(unsigned int n, char lower, char upper);
+    string getInput();
 
     
 
@@ -65,3 +64,12 @@ private:
 
 void addGuess(WordleWindow &mwin, const string code, const char startLetter);
 void addFeedback(WordleWindow &mwin, const int correctPosition, const int correctCharacter);
+
+// UTENFOR PENSUM
+enum WordleColor {
+    yellow = 0xb59f3b00,
+    green = 0x538d4e00,
+    gray = 0x3a3a3c00,
+    black = 0x12121300,
+    white = 0xd7dadc00
+};

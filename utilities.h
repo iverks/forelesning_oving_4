@@ -5,6 +5,7 @@ constexpr int wordLength = 5;
 int randint(int lower, int upper);
 string getRandomFiveLetterWord();
 string readInputToString();
+bool verifyWordLegality(string word);
 
 // const array<string, 2315>
 const vector<string> allowedCorrectAnswers = { 

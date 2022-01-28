@@ -1,6 +1,7 @@
 #include <std_lib_facilities.h>
 #include "utilities.h"
 #include "Wordle.h"
+#include "wordleVisual.h"
 
 void playWordle() {
     constexpr int maxGuesses = 6;
@@ -8,12 +9,12 @@ void playWordle() {
     string code;
     string guess;
     code = getRandomFiveLetterWord();
+    WordleWindow wwin(300, 20, winW, winH, wordLength, "Wordle");
+    wwin.color(WordleColor::black);
+
     while ( guess != code && guessNr < maxGuesses ) {
         cout << "guess nr: " << ++guessNr << '\n';
-        guess = readInputToString();
-        while ( !verifyWordLegality(guess) ) {
-            guess = readInputToString();
-        }
+        guess = wwin.getInput();
 
         vector<bool> greens, yellows;
         for (int i = 0; i < code.length(); i++) {
@@ -48,27 +49,6 @@ void playWordle() {
         cout << "Nice try haha\n"; 
 }
 
-bool verifyWordLegality(string word) {
-    if (word.length() != 5) {
-        cout << "Word needs to be 5 letters long!\n";
-        return false;
-    }
-
-    for (string allowedWord: allowedCorrectAnswers) {
-        if (word == allowedWord) {
-            return true;
-        }
-    }
-
-    for (string allowedWord: allowedWrongAnswers) {
-        if (word == allowedWord) {
-            return true;
-        }
-    }
-
-    cout << "Did you really think that was a real word?\n";
-    return false;
-}
 
 bool checkCharacterAndPosition(string code, char guess, int position) {
     if ( code[position] == guess) {
