@@ -47,21 +47,21 @@ public:
 
     vector<Guess> guesses;
 
-    void WordleWindow::appendResult(
+    void appendResult(
         string guess, 
         vector<bool> greens, 
         vector<bool> yellows
     );
+    void displayFinalResult( string code, bool didWin );
 
     string getInput();
 
 private:
     string wait_for_guess();
+    void WordleWindow::drawLetterSquares();
     void newGuess() { button_pressed = true; }
     bool button_pressed = false;
     int size = 0;
     Fl_Button guessBtn;
     Fl_Input guess;
 };
-
-void addGuess(WordleWindow &mwin, const string code, const char startLetter);

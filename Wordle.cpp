@@ -13,9 +13,8 @@ void playWordle() {
     wwin.color(WordleColor::black);
 
     while ( guess != code && guessNr < maxGuesses ) {
-        cout << "guess nr: " << ++guessNr << '\n';
-        // guess = getInput();
         guess = wwin.getInput();
+        guessNr++;
 
         vector<bool> greens, yellows;
         for (int i = 0; i < guess.length(); i++) {
@@ -28,27 +27,16 @@ void playWordle() {
             yellows.at(i) = checkCharacterIgnorePosition(code, guess.at(i));
         }
 
-        // Grafikk
+        // Feedback
         wwin.appendResult(guess, greens, yellows);
-
-        for (int i = 0; i < code.length(); i++) {
-            if (greens.at(i))
-                // cout << "green ";
-                cout << magicGreen << guess.at(i) << endMagic;
-            else if (yellows.at(i)) 
-                // cout << "yellow ";
-                cout << magicYellow << guess.at(i) << endMagic;
-            else 
-                // cout << "grey ";
-                cout << guess.at(i);
-        }
-        cout << "\n";
     }
-    if (guess == code ) 
-        cout << "Flink :^)\n";
-    else 
-        cout << "...\n"; 
-        cout << "Det riktige ordet var: " << code << ", burde kanskje gjettet det...\n";
+
+    bool didWin = false;
+    if (guess == code ) {
+        didWin = true;
+    }
+
+    wwin.displayFinalResult( code, didWin );
 }
 
 
