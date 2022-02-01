@@ -1,7 +1,6 @@
 #include <std_lib_facilities.h>
 #include "utilities.h"
 #include "Wordle.h"
-#include "wordleVisual.h"
 
 void playWordle() {
     int guessNr = 0;
@@ -9,13 +8,10 @@ void playWordle() {
     string guess;
 
     code = getRandomFiveLetterWord();
-    WordleWindow wwin(300, 20, winW, winH, wordLength, "Wordle");
-    wwin.color(WordleColor::black);
 
     while ( guess != code && guessNr < maxGuesses ) {
         cout << "guess nr: " << ++guessNr << '\n';
-        // guess = getInput();
-        guess = wwin.getInput();
+        guess = getInput();
 
         vector<bool> greens, yellows;
         for (int i = 0; i < guess.length(); i++) {
@@ -28,9 +24,7 @@ void playWordle() {
             yellows.at(i) = checkCharacterIgnorePosition(code, guess.at(i));
         }
 
-        // Grafikk
-        wwin.appendResult(guess, greens, yellows);
-
+        // Feedback
         for (int i = 0; i < code.length(); i++) {
             if (greens.at(i))
                 // cout << "green ";
@@ -41,6 +35,19 @@ void playWordle() {
             else 
                 // cout << "grey ";
                 cout << guess.at(i);
+        }
+        cout << "\n";
+        // Redundant but helpful
+        for (int i = 0; i < code.length(); i++) {
+            if (greens.at(i))
+                // cout << "green ";
+                cout << magicGreen << "GREEN " << endMagic;
+            else if (yellows.at(i)) 
+                // cout << "yellow ";
+                cout << magicYellow << "YELLOW " << endMagic;
+            else 
+                // cout << "grey ";
+                cout << "GRAY ";
         }
         cout << "\n";
     }
