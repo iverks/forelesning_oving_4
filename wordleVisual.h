@@ -4,29 +4,31 @@
 
 using namespace Graph_lib;
 
-constexpr int winW = 200; // velg vindu bredde
-constexpr int winH = 200; // velg vindu hoyde
+constexpr int pad = 5;      // velg y skalering
 
-constexpr int padY = winH / 1;      // velg x skalering
-constexpr int padX = winW / 1;      // velg y skalering
-constexpr int radCircle = padX / 1; // velg sirkel radius
+constexpr int btnSize = 63;
 
-constexpr int btnW = padX;
-constexpr int btnH = padY;
-constexpr Point upperLeftCornerBtn = Point{winW - padX - btnW, padY};
+constexpr int winW = pad*(2+5+1) + btnSize*(2+5); // velg vindu bredde
+constexpr int winH = pad*(2+6+1) + btnSize*(4+6); // velg vindu hoyde
 
-constexpr int inBoxW = winW - 3 * padX - btnW;
-constexpr int inBoxH = padY;
-constexpr Point upperLeftCornerInBox = Point{padX, padY};
+constexpr Point upperLeftCornerBtn = Point{winW - pad - btnSize, pad};
+
+constexpr int inBoxW = winW - 3 * pad - btnSize;
+constexpr int inBoxH = btnSize;
+constexpr Point upperLeftCornerInBox = Point{pad, pad};
+
+// UTENFOR PENSUM
+enum WordleColor {
+    yellow = 0xb59f3b00,
+    green = 0x538d4e00,
+    gray = 0x3a3a3c00,
+    black = 0x12121300,
+    white = 0xd7dadc00
+};
 
 struct Guess {
     const string code; 
-    char startLetter = 'a';
-};
-
-struct Feedback {
-    const int correctPosition = 0;
-    const int correctCharacter = 0;
+    const vector<WordleColor> colors;
 };
 
 // Her defineres klassen WordleWindow, som arver fra klassen AnimationWindow.
@@ -44,24 +46,22 @@ public:
     }
 
     vector<Guess> guesses;
-    vector<Feedback> feedbacks;
 
-    void setCodeHidden(bool hidden);
+    void WordleWindow::appendResult(
+        string guess, 
+        vector<bool> greens, 
+        vector<bool> yellows
+    );
 
-    string getInput(unsigned int n, char lower, char upper);
-
-    
+    string getInput();
 
 private:
     string wait_for_guess();
     void newGuess() { button_pressed = true; }
-    void drawCodeHider();
     bool button_pressed = false;
-    bool code_hidden = true;
     int size = 0;
     Fl_Button guessBtn;
     Fl_Input guess;
 };
 
 void addGuess(WordleWindow &mwin, const string code, const char startLetter);
-void addFeedback(WordleWindow &mwin, const int correctPosition, const int correctCharacter);

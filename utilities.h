@@ -2,9 +2,12 @@
 #include "std_lib_facilities.h"
 
 constexpr int wordLength = 5;
+constexpr int maxGuesses = 6;
 int randint(int lower, int upper);
 string getRandomFiveLetterWord();
 string readInputToString();
+bool verifyWordLegality(string word);
+string getInput();
 
 // const array<string, 2315>
 const vector<string> allowedCorrectAnswers = { 
