@@ -4,6 +4,6 @@ _Torje:_
 Referanser
 String
 _Iver:_
-String
+Struct
 Funksjoner
 (Grafikk)

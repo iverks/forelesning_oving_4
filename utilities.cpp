@@ -8,7 +8,7 @@ int randomInteger(int lower, int upper) {
 
 string getRandomFiveLetterWord() {
     int index = randomInteger(0, allowedCorrectAnswers.size());
-    string word = allowedCorrectAnswers[index];
+    string word = allowedCorrectAnswers.at(index);
     if (word.length() != wordLength) {
         cout << "Generated word is not 5 letters long! Catastrophy!\n";
     }
@@ -20,7 +20,7 @@ string readInputToString() {
     cout << "Guess a five letter word\n";
     cin >> stringy;
     for (int index = 0; index < stringy.length(); index++) {
-        stringy[index] = tolower(stringy[index]);
+        stringy.at(index) = tolower(stringy.at(index));
     }
     return stringy;
 }
@@ -45,4 +45,13 @@ bool verifyWordLegality(string word) {
 
     cout << "Did you really think that was a real word?\n";
     return false;
+}
+
+string getInput() {
+    string guess = readInputToString();
+	while (!verifyWordLegality(guess))
+	{
+		guess = readInputToString();
+	}
+	return guess;
 }

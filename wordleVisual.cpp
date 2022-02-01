@@ -1,26 +1,20 @@
 #include "wordleVisual.h"
 #include "utilities.h"
 
-void addGuess(WordleWindow &mwin, const string code, const char startLetter)
+void addGuess(WordleWindow &wwin, const string code, const char startLetter)
 {
+
 	// definer addGuess
 }
 
-void addFeedback(WordleWindow &mwin, const int correctPosition, const int correctCharacter)
+void addFeedback(WordleWindow &wwin, const int correctPosition, const int correctCharacter)
 {
 	// definer addFeedback
 }
 
-void WordleWindow::drawCodeHider()
-{
-	if(code_hidden) {
-		draw_rectangle(Point{padX, 3 * padY}, winW - size * padX, padY, Color::black);
-	}
-}
-
 WordleWindow::WordleWindow(int x, int y, int w, int h, int size, const string &title) 
 : AnimationWindow(x, y, w, h, title),
-guessBtn{upperLeftCornerBtn.x, upperLeftCornerBtn.y, btnW, btnH, "Add"},
+guessBtn{upperLeftCornerBtn.x, upperLeftCornerBtn.y, btnSize, btnSize, "Add"},
 guess{upperLeftCornerInBox.x, upperLeftCornerInBox.y, inBoxW, inBoxH, "Guess"},
 size(size)
 {
@@ -33,26 +27,29 @@ string WordleWindow::wait_for_guess()
 {
 	while (!button_pressed && !should_close())
 	{	
-		for(int guessIndex = 0; guessIndex < guesses.size(); guessIndex++) {
+		// Draw guessed letters
+		for(int gjettNr = 0; gjettNr < guesses.size(); gjettNr++) {
 			//Implementer gjett slik at det vises fargede rektangler i grafikkvinduet
-			{
-                // Tegn rektangler ved bruk av draw_rectangle()
-				draw_rectangle(Point{100, 100}, 10, 10, Color::gray);
-				
+			Guess gjett = guesses.at(gjettNr);
+			int y = (pad+btnSize) * 2 + (pad+btnSize) * gjettNr;
+			for (unsigned int bokstavNr = 0; bokstavNr < wordLength; bokstavNr++) {
+				int x = (pad+btnSize) * 1 + (pad+btnSize) * bokstavNr;
+				draw_rectangle({x, y}, btnSize, btnSize, gjett.colors.at(bokstavNr));
+				string letter;
+				letter.push_back(gjett.code.at(bokstavNr));
+				draw_text({x + 2*pad, y + btnSize - 2*pad}, letter, WordleColor::white, 50U );
 			}
 		}
-
-		for(int feedbackIndex = 0; feedbackIndex < feedbacks.size(); feedbackIndex++) {
-			// Implementer feedback
-
-			for (int i = 0; i < size; i++)
-			{
-				// Tegn sirkler ved hjelp av draw_circle
+		// Draw placeholders in the rest of the spots
+		for(int gjettNr = guesses.size(); gjettNr < maxGuesses; gjettNr++) {
+			//Implementer gjett slik at det vises fargede rektangler i grafikkvinduet
+			int y = (pad+btnSize) * 2 + (pad+btnSize) * gjettNr;
+			for (unsigned int bokstavNr = 0; bokstavNr < wordLength; bokstavNr++) {
+				int x = (pad+btnSize) * 1 + (pad+btnSize) * bokstavNr;
+				draw_rectangle({x, y}, btnSize, btnSize, WordleColor::gray);
+				draw_rectangle({x+pad, y+pad}, btnSize-2*pad, btnSize-2*pad, WordleColor::black);
 			}
 		}
-
-		// Burde tegnes sist siden den skal ligge på toppen
-		drawCodeHider();
 
 		next_frame();
 	}
@@ -64,18 +61,29 @@ string WordleWindow::wait_for_guess()
 
 string WordleWindow::getInput()
 {
-	string guess;
+	string guess = wait_for_guess();
+	for (int index = 0; index < guess.size(); index++) {
+			guess.at(index) = tolower(guess.at(index));
+		}
+
 	while (!verifyWordLegality(guess) && !should_close())
-	{
-		guess.clear();
-		string input = wait_for_guess();
-		for (int index = 0; index < input.length(); index++) {
-			input[index] = tolower(input[index]);
+	{	
+		guess = wait_for_guess();
+		for (int index = 0; index < guess.size(); index++) {
+			guess.at(index) = tolower(guess.at(index));
 		}
 	}
 	return guess;
 }
 
-void WordleWindow::setCodeHidden(bool hidden) {
-	code_hidden = hidden;
+void WordleWindow::appendResult(string word, vector<bool> greens, vector<bool> yellows) {
+	vector<WordleColor> colors(5, WordleColor::gray);
+	for (int pelle = 0; pelle < word.size(); pelle++) {
+		if (greens.at(pelle)) {
+			colors.at(pelle) = WordleColor::green;
+		} else if (yellows.at(pelle)) {
+			colors.at(pelle) = WordleColor::yellow;
+		} 
+	}
+	guesses.push_back(Guess{word, colors});
 }
