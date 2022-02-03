@@ -3,59 +3,50 @@
 #include "Wordle.h"
 
 void playWordle() {
-    int guessNr = 0;
-    string code;
-    string guess;
+    string fasit = getRandomFiveLetterWord();
+    cout << fasit << '\n';
 
-    code = getRandomFiveLetterWord();
-
-    while ( guess != code && guessNr < maxGuesses ) {
-        cout << "guess nr: " << ++guessNr << '\n';
-        guess = getInput();
-
-        vector<bool> greens, yellows;
-        for (int i = 0; i < guess.length(); i++) {
-            greens.push_back(false);
-            yellows.push_back(false);
+    while (true) {
+        // gjett ord
+        string guess = readInputToString();
+        // Verifisere at ordet er lovlig (5 bokstaver, kan ikke være tullball)
+        while ( verifyWordLegality(guess) == false) {
+            guess = readInputToString();
         }
 
-        for (int i = 0; i < guess.length(); i++) {
-            greens.at(i) = checkCharacterAndPosition(code, guess.at(i), i);
-            yellows.at(i) = checkCharacterIgnorePosition(code, guess.at(i));
-        }
+        // Sjekke om ordet er riktig
+        vector<bool> greens = {false, false, false, false, false};
+        for (unsigned int letterIdx = 0; letterIdx < guess.size(); letterIdx++) {
+            char bokstav = guess.at(letterIdx);
+            if (checkCharacterAndPosition(fasit, bokstav, letterIdx)) {
+                // Lagre at det er riktig
+                greens.at(letterIdx) = true;
+            }
 
-        // Feedback
-        for (int i = 0; i < code.length(); i++) {
-            if (greens.at(i))
-                // cout << "green ";
-                cout << magicGreen << guess.at(i) << endMagic;
-            else if (yellows.at(i)) 
-                // cout << "yellow ";
-                cout << magicYellow << guess.at(i) << endMagic;
-            else 
-                // cout << "grey ";
-                cout << guess.at(i);
         }
-        cout << "\n";
-        // Redundant but helpful
-        for (int i = 0; i < code.length(); i++) {
-            if (greens.at(i))
-                // cout << "green ";
-                cout << magicGreen << "GREEN " << endMagic;
-            else if (yellows.at(i)) 
-                // cout << "yellow ";
-                cout << magicYellow << "YELLOW " << endMagic;
-            else 
-                // cout << "grey ";
+        for (unsigned int letterIdx = 0; letterIdx < guess.size(); letterIdx++) {
+            if (greens.at(letterIdx) == true) {
+                cout << "GREEEN ";
+            }
+            else {
                 cout << "GRAY ";
+            }
+    
         }
-        cout << "\n";
+        cout << '\n';
+
+
+        // Sjekke hvilke bokstaver som er på rett plass
+        // Lagre denne informasjonen
+
+        // Sjekke hvilke bokstaver som er i ordet, men ikkje på rett plass.
+        // Lagre denne informasjonen
+
+        // Gi tilbakemelding på gjett 
+
     }
-    if (guess == code ) 
-        cout << "Flink :^)\n";
-    else 
-        cout << "...\n"; 
-        cout << "Det riktige ordet var: " << code << ", burde kanskje gjettet det...\n";
+    // Gratulere med seier eller tap
+
 }
 
 

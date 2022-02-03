@@ -2,25 +2,22 @@
 #include "utilities.h"
 
 int randomInteger(int lower, int upper) {
+    // Fra og med, til og med
     int difference = upper-lower+1;
     return lower + (rand()%difference);
 }
 
 string getRandomFiveLetterWord() {
-    int index = randomInteger(0, allowedCorrectAnswers.size());
-    string word = allowedCorrectAnswers.at(index);
-    if (word.length() != wordLength) {
-        cout << "Generated word is not 5 letters long! Catastrophy!\n";
-    }
-    return word;
+    int index = randomInteger(0, allowedCorrectAnswers.size()-1);
+    return allowedCorrectAnswers.at(index);
 }
 
 string readInputToString() {
     string stringy;
-    cout << "Guess a five letter word\n";
-    cin >> stringy;
+    cout << "Guess a five letter word\n"; 
+    cin >> stringy; // Get word
     for (int index = 0; index < stringy.length(); index++) {
-        stringy.at(index) = tolower(stringy.at(index));
+        stringy.at(index) = tolower(stringy.at(index)); // Gjør til små bokstaver
     }
     return stringy;
 }
