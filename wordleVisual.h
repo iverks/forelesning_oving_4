@@ -1,15 +1,15 @@
 #pragma once
-#include "GUI.h"
 #include "AnimationWindow.h"
+#include "std_lib_facilities.h"
+#include "widgets/Button.h"
+#include "widgets/TextInput.h"
 
-using namespace Graph_lib;
-
-constexpr int pad = 5;      // velg y skalering
+constexpr int pad = 5;  // velg y skalering
 
 constexpr int btnSize = 63;
 
-constexpr int winW = pad*(2+5+1) + btnSize*(2+5); // velg vindu bredde
-constexpr int winH = pad*(2+6+1) + btnSize*(4+6); // velg vindu hoyde
+constexpr int winW = pad * (2 + 5 + 1) + btnSize * (2 + 5);  // velg vindu bredde
+constexpr int winH = pad * (2 + 6 + 1) + btnSize * (4 + 6);  // velg vindu hoyde
 
 constexpr Point upperLeftCornerBtn = Point{winW - pad - btnSize, pad};
 
@@ -27,41 +27,35 @@ enum WordleColor {
 };
 
 struct Guess {
-    const string code; 
-    const vector<WordleColor> colors;
+    const string code;
+    const vector<TDT4102::Color> colors;
 };
 
 // Her defineres klassen WordleWindow, som arver fra klassen AnimationWindow.
 // Det betyr at alle medlemsvariable og medlemsfunksjoner i AnimationWindow, også er en
 // del av WordleWindow. Du kan lese mer om klasser i kapittel 9.4 og om arv
 // i kapittel 14.3 i læreboka.
-class WordleWindow : public AnimationWindow
-{
-public:
-    WordleWindow(int x, int y, int w, int h, int size, const string &title);
-
-    static void cb_guess(Fl_Widget* widget, Address pw)
-    {
-        reference_to<WordleWindow>(pw).newGuess();
-    }
+class WordleWindow : public AnimationWindow {
+   public:
+    WordleWindow(int x, int y, int w, int h, int size, const string& title);
 
     vector<Guess> guesses;
 
     void appendResult(
-        string guess, 
-        vector<bool> greens, 
-        vector<bool> yellows
-    );
-    void displayFinalResult( string code, bool didWin );
+        string guess,
+        vector<bool> greens,
+        vector<bool> yellows);
+    void displayFinalResult(string code, bool didWin);
 
     string getInput();
 
-private:
+   private:
     string wait_for_guess();
-    void WordleWindow::drawLetterSquares();
+    void drawBg();
+    void drawLetterSquares();
     void newGuess() { button_pressed = true; }
     bool button_pressed = false;
+    Button guessBtn;
+    TextInput guess;
     int size = 0;
-    Fl_Button guessBtn;
-    Fl_Input guess;
 };

@@ -1,5 +1,5 @@
-debug/
-release/
+builddir/
+subprojects/
 .vscode
-Makefile
 notater.md
+meson.build

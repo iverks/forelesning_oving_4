@@ -1,6 +1,7 @@
-#include <std_lib_facilities.h>
-#include "utilities.h"
 #include "Wordle.h"
+
+#include "std_lib_facilities.h"
+#include "utilities.h"
 #include "wordleVisual.h"
 
 void playWordle() {
@@ -10,9 +11,8 @@ void playWordle() {
 
     code = getRandomFiveLetterWord();
     WordleWindow wwin(300, 20, winW, winH, wordLength, "Wordle");
-    wwin.color(WordleColor::black);
 
-    while ( guess != code && guessNr < maxGuesses ) {
+    while (guess != code && guessNr < maxGuesses) {
         guess = wwin.getInput();
         guessNr++;
 
@@ -32,25 +32,23 @@ void playWordle() {
     }
 
     bool didWin = false;
-    if (guess == code ) {
+    if (guess == code) {
         didWin = true;
     }
 
-    wwin.displayFinalResult( code, didWin );
+    wwin.displayFinalResult(code, didWin);
 }
 
-
 bool checkCharacterAndPosition(string code, char guess, int position) {
-    if ( code.at(position) == guess) {
+    if (code.at(position) == guess) {
         return true;
-    }
-    else {
+    } else {
         return false;
     }
 }
 
 bool checkCharacterIgnorePosition(string code, char guess) {
-    for (int i = 0; i < code.length(); i++ ){
+    for (int i = 0; i < code.length(); i++) {
         if (code.at(i) == guess) {
             return true;
         }
