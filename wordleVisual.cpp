@@ -62,9 +62,10 @@ void WordleWindow::displayFinalResult(string code, bool didWin) {
     }
 
     while (!button_pressed && !should_close()) {
+        drawBg();
         drawLetterSquares();
         draw_rectangle({pad + btnSize, winH - (pad + 2 * btnSize)}, (pad + btnSize) * 5, (pad + btnSize), Color(displayColor));
-        draw_text({2 * pad + btnSize, winH - (2 * pad + btnSize)}, displayText, Color(WordleColor::white), 50U);
+        draw_text({2 * pad + btnSize, winH - (pad + 2 * btnSize)}, displayText, Color(WordleColor::white), 50U);
         next_frame();
     }
     button_pressed = false;
@@ -84,8 +85,7 @@ void WordleWindow::drawLetterSquares() {
             draw_rectangle({x, y}, btnSize, btnSize, gjett.colors.at(bokstavNr));
             string letter;
             letter.push_back(gjett.code.at(bokstavNr));
-            draw_text({x + 2 * pad, y}, letter, Color::white_smoke, 56U);
-            // draw_text({x + 2 * pad, y + btnSize - 2 * pad}, letter, Color::antique_white, 100U);
+            draw_text({x + 2 * pad, y}, letter, Color(WordleColor::white), 56U);
         }
     }
     // Draw placeholders in the rest of the spots

@@ -11,6 +11,7 @@ void playWordle() {
 
     code = getRandomFiveLetterWord();
     WordleWindow wwin(300, 20, winW, winH, wordLength, "Wordle");
+    cout << code << "\n";
 
     while (guess != code && guessNr < maxGuesses) {
         guess = wwin.getInput();

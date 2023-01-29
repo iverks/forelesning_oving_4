@@ -19,11 +19,11 @@ constexpr Point upperLeftCornerInBox = Point{pad, pad};
 
 // UTENFOR PENSUM
 enum WordleColor {
-    yellow = 0xb59f3b00,
-    green = 0x538d4e00,
-    gray = 0x3a3a3c00,
-    black = 0x12121300,
-    white = 0xd7dadc00
+    yellow = 0xb59f3b,
+    green = 0x538d4e,
+    gray = 0x3a3a3c,
+    black = 0x121213,
+    white = 0xd7dadc,
 };
 
 struct Guess {
