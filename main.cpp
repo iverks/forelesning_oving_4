@@ -6,13 +6,14 @@
 int main() {
     srand(time(NULL));
 
-    // // Char-aritmetikk
+    //? Char-aritmetikk
     // char g = 'g';
     // char d = 'd';
     // char k = 'k';
     // char n = 'n';
 
-    // cout << char(g + 1) // Hva printes her?
+    //? Hva printes her?
+    // cout << char(g + 1)
     //    << char(d + 1)
     //    << char(k + 1)
     //    << char(k + 1)
@@ -23,15 +24,10 @@ int main() {
     // // Hva blir dette?
     // cout << char(vanskelig + 1) << '\n';
 
-    // // Datatyper
-    // // IKKE BRUK AUTO I ØVINGEN !!
-    // auto eksempel = 58008;
-    // // IKKE BRUK AUTO I ØVINGEN !!
-    // auto a = 'o';
-    // auto b = "hello"; // Hint: det er ikke en string
-    // auto c = "w";
-    // auto dd = 'rld';
-    // string e = "!";
+    //* Bli kjent med feilmeldinger
+    //? string stringy = 'hello'; //! error: no viable conversion from 'int' to 'std::string' (aka 'basic_string<char>')
+    //? char a = "a"; //! error: cannot initialize a variable of type 'char' with an lvalue of type 'const char[2]'
+    //? char a = 'å'; //! error: character too large for enclosing character literal type
 
     // Oppgave 4
     playWordle();

@@ -17,15 +17,6 @@ constexpr int inBoxW = winW - 3 * pad - btnSize;
 constexpr int inBoxH = btnSize;
 constexpr Point upperLeftCornerInBox = Point{pad, pad};
 
-// UTENFOR PENSUM
-enum WordleColor {
-    yellow = 0xb59f3b,
-    green = 0x538d4e,
-    gray = 0x3a3a3c,
-    black = 0x121213,
-    white = 0xd7dadc,
-};
-
 struct Guess {
     const string code;
     const vector<TDT4102::Color> colors;
@@ -54,6 +45,7 @@ class WordleWindow : public AnimationWindow {
     void drawBg();
     void drawLetterSquares();
     void newGuess() { button_pressed = true; }
+    bool enterToggled();
     bool button_pressed = false;
     Button guessBtn;
     TextInput guess;

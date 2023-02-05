@@ -10,11 +10,13 @@ void playWordle() {
     string guess;
 
     code = getRandomFiveLetterWord();
-    WordleWindow wwin(300, 20, winW, winH, wordLength, "Wordle");
+    // WordleWindow wwin(300, 20, winW, winH, wordLength, "Wordle");
     cout << code << "\n";
 
     while (guess != code && guessNr < maxGuesses) {
-        guess = wwin.getInput();
+        cout << "guess nr: " << ++guessNr << '\n';
+        guess = getInput();
+        // guess = wwin.getInput();
         guessNr++;
 
         vector<bool> greens, yellows;
@@ -29,7 +31,8 @@ void playWordle() {
         }
 
         // Feedback
-        wwin.appendResult(guess, greens, yellows);
+        // wwin.appendResult(guess, greens, yellows);
+        printGuessResult(guess, greens, yellows);
     }
 
     bool didWin = false;
@@ -37,7 +40,8 @@ void playWordle() {
         didWin = true;
     }
 
-    wwin.displayFinalResult(code, didWin);
+    // wwin.displayFinalResult(code, didWin);
+    printFinalResult(code, didWin);
 }
 
 bool checkCharacterAndPosition(string code, char guess, int position) {
@@ -55,4 +59,41 @@ bool checkCharacterIgnorePosition(string code, char guess) {
         }
     }
     return false;
+}
+
+void printGuessResult(string guess, vector<bool> greens, vector<bool> yellows) {
+    for (int i = 0; i < guess.length(); i++) {
+        if (greens.at(i))
+            // cout << "green ";
+            cout << magicGreen << guess.at(i) << endMagic;
+        else if (yellows.at(i))
+            // cout << "yellow ";
+            cout << magicYellow << guess.at(i) << endMagic;
+        else
+            // cout << "grey ";
+            cout << guess.at(i);
+    }
+    cout << "\n";
+
+    for (int i = 0; i < guess.length(); i++) {
+        if (greens.at(i))
+            // cout << "green ";
+            cout << magicGreen << "GREEN " << endMagic;
+        else if (yellows.at(i))
+            // cout << "yellow ";
+            cout << magicYellow << "YELLOW " << endMagic;
+        else
+            // cout << "grey ";
+            cout << "GRAY ";
+    }
+    cout << "\n";
+}
+
+void printFinalResult(string code, bool didWin) {
+    cout << "The word was " << code;
+    if (didWin) {
+        cout << " congratulations!\n";
+    } else {
+        cout << " im sorry\n";
+    }
 }
