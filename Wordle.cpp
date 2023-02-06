@@ -25,9 +25,21 @@ void playWordle() {
             yellows.push_back(false);
         }
 
+        string tempCode = code;
         for (int i = 0; i < guess.length(); i++) {
             greens.at(i) = checkCharacterAndPosition(code, guess.at(i), i);
-            yellows.at(i) = checkCharacterIgnorePosition(code, guess.at(i));
+            tempCode.at(i) = ' ';
+        }
+        for (int i = 0; i < guess.length(); i++) {
+            if (checkCharacterIgnorePosition(tempCode, guess.at(i)) && !checkCharacterAndPosition(code, guess.at(i), i)) {
+                yellows.at(i) = true;
+                for (int j = 0; j < 5; j++) {
+                    if (tempCode.at(j) == guess.at(i)) {
+                        tempCode.at(j) = ' ';
+                        break;
+                    }
+                }
+            }
         }
 
         // Feedback
